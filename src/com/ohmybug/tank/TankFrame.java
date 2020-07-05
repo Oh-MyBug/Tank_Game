@@ -3,39 +3,79 @@ package com.ohmybug.tank;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TankFrame extends Frame {
-    private static final int GAME_WIDTH = 800;
-    private static final int GAME_HEIGHT = 600;
+    public static final TankFrame INSTANCE = new TankFrame();
+    public static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
+    Image offScreenImage = null;
+    private Player myTank;
+    private List<Tank> enemyTanks;
+    private List<Bullet> bullets;
+    private List<Explode> explodes;
 
-    private Tank myTank;
-    private Tank enemyTank;
-    private Bullet bullet;
-
-    public TankFrame(){
+    private TankFrame() {
         this.setTitle("Tank War");
-        this.setLocation(400,100);
-        this.setSize(GAME_WIDTH,GAME_HEIGHT);
+        this.setLocation(400, 100);
+        this.setSize(GAME_WIDTH, GAME_HEIGHT);
 
         this.addKeyListener(new TankKeyListener());
 
-        myTank = new Tank(100, 100, Direction.R, Group.GOOD, this);
-        enemyTank = new Tank(200, 200, Direction.D, Group.BAD, this);
+        initGameObjects();
     }
 
-    public void add(Bullet bullet){
-        this.bullet = bullet;
+    private void initGameObjects() {
+        myTank = new Player(100, 100, Direction.R, Group.GOOD);
+        bullets = new ArrayList<>();
+        enemyTanks = new ArrayList<>();
+        explodes = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++)
+            enemyTanks.add(new Tank(100 + 50*i,200, Direction.D, Group.BAD));
+    }
+
+    public void add(Bullet bullet) {
+        this.bullets.add(bullet);
+    }
+
+    public void add(Explode explode) {
+        this.explodes.add(explode);
     }
 
     @Override
     public void paint(Graphics g) {
-        myTank.paint(g);    // 具体画什么 交给坦克去做
-        enemyTank.paint(g);
-        if (bullet != null)
-            bullet.paint(g);
-    }
+        Color c = g.getColor();
+        g.setColor(Color.WHITE);
+        g.drawString("bullets: " + bullets.size(), 10, 50);
+        g.drawString("enemies: " + enemyTanks.size(), 10, 70);
+        g.setColor(c);
 
-    Image offScreenImage = null;
+        myTank.paint(g);    // 具体画什么 交给坦克去做
+        for (int i = enemyTanks.size()-1; i >= 0; i --) {
+            if (!enemyTanks.get(i).isLive())
+                enemyTanks.remove(i);
+            else
+                enemyTanks.get(i).paint(g);
+        }
+        for (int i = explodes.size()-1; i >= 0; i --) {
+            if (!explodes.get(i).isLive())
+                explodes.remove(i);
+            else
+                explodes.get(i).paint(g);
+        }
+        for (int i = bullets.size() - 1; i >= 0; i --) {
+            for (int j = enemyTanks.size()-1; j >= 0; j --)
+                bullets.get(i).collidesWithTank(enemyTanks.get(j));
+
+            if (!bullets.get(i).isLive()) {
+                bullets.remove(i);
+            }
+            else {
+                bullets.get(i).paint(g);
+            }
+        }
+    }
 
     @Override
     public void update(Graphics g) {
@@ -44,7 +84,7 @@ public class TankFrame extends Frame {
         Graphics gOffScreen = offScreenImage.getGraphics();
         Color c = gOffScreen.getColor();
         gOffScreen.setColor(Color.BLACK);
-        gOffScreen.fillRect(0,0,GAME_WIDTH, GAME_HEIGHT);
+        gOffScreen.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         gOffScreen.setColor(c);
         paint(gOffScreen);
         g.drawImage(offScreenImage, 0, 0, null);

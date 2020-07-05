@@ -8,7 +8,7 @@ public class ResourceMgr {
     public static BufferedImage goodTankL, goodTankU, goodTankR, goodTankD;
     public static BufferedImage badTankL, badTankU, badTankR, badTankD;
     public static BufferedImage bulletL, bulletU, bulletR, bulletD;
-    public static BufferedImage[] explodes = new BufferedImage[16];
+    public static BufferedImage[] explodes = new BufferedImage[29];
 
     static {
         try {
@@ -26,6 +26,9 @@ public class ResourceMgr {
             bulletL = ImageUtil.rorateImage(bulletU, -90);
             bulletR = ImageUtil.rorateImage(bulletU, 90);
             bulletD = ImageUtil.rorateImage(bulletU, 180);
+
+            for (int i = 0; i < 29; i++)
+                explodes[i] = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/e" + (i+1) + ".png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

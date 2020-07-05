@@ -3,16 +3,33 @@ package com.ohmybug.tank;
 import java.awt.*;
 
 public class Bullet {
+    private static final int SPEED = 10;
     private int x,y;
     private Direction direction;
     private Group group;
-    private static final int SPEED = 10;
+    private boolean live = true;
 
     public Bullet(int x, int y, Direction direction, Group group) {
         this.x = x;
         this.y = y;
         this.direction = direction;
         this.group = group;
+    }
+
+    public boolean isLive() {
+        return live;
+    }
+
+    public void setLive(boolean live) {
+        this.live = live;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     public void paint(Graphics g){
@@ -48,5 +65,27 @@ public class Bullet {
                 y += SPEED;
                 break;
         }
+        boundsCheck();
+    }
+
+    public void collidesWithTank(Tank tank){
+        if (!this.isLive() || !tank.isLive()) return;
+        if (this.group == tank.getGroup()) return;
+        Rectangle rectBullet = new Rectangle(x,y,ResourceMgr.bulletU.getWidth(), ResourceMgr.bulletU.getHeight());
+        Rectangle rectTank = new Rectangle(tank.getX(),tank.getY(),
+                ResourceMgr.goodTankU.getWidth(), ResourceMgr.goodTankU.getHeight());
+        if (rectBullet.intersects(rectTank)){
+            this.die();
+            tank.die();
+        }
+    }
+
+    private void boundsCheck() {
+        if (x > TankFrame.GAME_WIDTH || x < 0 || y > TankFrame.GAME_HEIGHT || y < 0)
+            live = false;
+    }
+
+    public void die(){
+        this.setLive(false);
     }
 }
