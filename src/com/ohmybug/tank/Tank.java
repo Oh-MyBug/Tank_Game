@@ -4,23 +4,24 @@ import java.awt.*;
 import java.util.Random;
 
 public class Tank extends AbstractGameObject {
-    private static final int TANK_WIDTH = ResourceMgr.badTankL.getWidth(),
+    private static final int SPEED = Integer.parseInt(PropertyMgr.get("enemySpeed")),
+            TANK_WIDTH = ResourceMgr.badTankL.getWidth(),
             TANK_HEIGHT = ResourceMgr.badTankL.getHeight();
     private int x, y;
     private Direction direction;
     private boolean moving = true;
     private boolean live = true;
     private Group group;
+    private Rectangle rectTank;
 
     private int oldX, oldY;
-
-    public static final int SPEED = Integer.parseInt(PropertyMgr.get("enemySpeed"));;
 
     public Tank(int x, int y, Direction direction, Group group) {
         this.x = x;
         this.y = y;
         this.direction = direction;
         this.group = group;
+        rectTank = new Rectangle(x, y, TANK_WIDTH, TANK_HEIGHT);
 
         oldX = x;
         oldY = y;
@@ -101,11 +102,18 @@ public class Tank extends AbstractGameObject {
                 y += SPEED;
                 break;
         }
+
+        rectTank.x = x;
+        rectTank.y = y;
         boundsCheck();
         randomDirection();
         if (random.nextInt(100) > 90) {
             fire();
         }
+    }
+
+    public Rectangle getRect(){
+        return rectTank;
     }
 
     private void boundsCheck() {
@@ -114,7 +122,7 @@ public class Tank extends AbstractGameObject {
             this.back();
     }
 
-    private void back() {
+    public void back() {
         x = oldX;
         y = oldY;
     }
