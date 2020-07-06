@@ -1,11 +1,13 @@
 package com.ohmybug.tank;
 
+import com.ohmybug.tank.strategy.FireStrategy;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Player {
-    private static final int PLAYER_WIDTH = ResourceMgr.goodTankU.getWidth(),
-            PLAYER_HEIGHT = ResourceMgr.goodTankU.getHeight();
+    public static final int SPEED = Integer.parseInt(PropertyMgr.get("playerSpeed"));
+    FireStrategy strategy = null;
     private int x, y;
     private Direction direction;
     private boolean bL, bU, bR, bD;
@@ -13,12 +15,28 @@ public class Player {
     private boolean live = true;
     private Group group;
 
-    public static final int SPEED = Integer.parseInt(PropertyMgr.get("playerSpeed"));
-
     public Player(int x, int y, Direction direction, Group group) {
         this.x = x;
         this.y = y;
         this.direction = direction;
+        this.group = group;
+
+        this.initFireStrategy();
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
         this.group = group;
     }
 
@@ -65,7 +83,6 @@ public class Player {
         }
         move();
     }
-
 
     private void setMainDir() {
         // 所有方向键都释放 Tank停止
@@ -126,11 +143,18 @@ public class Player {
         setMainDir();
     }
 
+    private void initFireStrategy(){
+        String className = PropertyMgr.get("tankFireStrategy");
+        try {
+            Class clazz = Class.forName("com.ohmybug.tank.strategy." + className);
+            strategy = (FireStrategy) clazz.getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void fire() {
-        int bX = x + PLAYER_WIDTH/2 - ResourceMgr.bulletU.getWidth()/2;
-        int bY = y + PLAYER_HEIGHT/2 - ResourceMgr.bulletU.getHeight()/2;
-        for (Direction direction: Direction.values())
-            TankFrame.INSTANCE.add(new Bullet(bX,bY,direction,group));
+        strategy.fire(this);
     }
 
     private void move(){

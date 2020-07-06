@@ -5,3 +5,6 @@ playerSpeed=5
 enemySpeed=5
 gameLocationX=400
 gameLocationY=100
+
+#tank fire strategy
+tankFireStrategy=FourFireStrategy

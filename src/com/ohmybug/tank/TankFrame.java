@@ -21,7 +21,6 @@ public class TankFrame extends Frame {
 
     private TankFrame() {
         this.setTitle("Tank War");
-        System.out.println(GAME_WIDTH);
         this.setLocation(GAME_LOC_X, GAME_LOC_Y);
         this.setSize(GAME_WIDTH, GAME_HEIGHT);
 
