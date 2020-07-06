@@ -4,7 +4,8 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Player {
-    private static final int TANK_WIDTH = 48, TANK_HEIGHT = 48;
+    private static final int PLAYER_WIDTH = ResourceMgr.goodTankU.getWidth(),
+            PLAYER_HEIGHT = ResourceMgr.goodTankU.getHeight();
     private int x, y;
     private Direction direction;
     private boolean bL, bU, bR, bD;
@@ -12,7 +13,7 @@ public class Player {
     private boolean live = true;
     private Group group;
 
-    public static final int SPEED = 5;
+    public static final int SPEED = Integer.parseInt(PropertyMgr.get("playerSpeed"));
 
     public Player(int x, int y, Direction direction, Group group) {
         this.x = x;
@@ -126,8 +127,8 @@ public class Player {
     }
 
     private void fire() {
-        int bX = x + ResourceMgr.goodTankU.getWidth()/2 - ResourceMgr.bulletU.getWidth()/2;
-        int bY = y + ResourceMgr.goodTankU.getHeight()/2 - ResourceMgr.bulletU.getHeight()/2;
+        int bX = x + PLAYER_WIDTH/2 - ResourceMgr.bulletU.getWidth()/2;
+        int bY = y + PLAYER_HEIGHT/2 - ResourceMgr.bulletU.getHeight()/2;
         TankFrame.INSTANCE.add(new Bullet(bX,bY,direction,group));
     }
 

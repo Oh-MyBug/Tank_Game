@@ -8,7 +8,10 @@ import java.util.List;
 
 public class TankFrame extends Frame {
     public static final TankFrame INSTANCE = new TankFrame();
-    public static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
+    public static final int GAME_WIDTH = Integer.parseInt(PropertyMgr.get("gameWidth")),
+            GAME_HEIGHT = Integer.parseInt(PropertyMgr.get("gameHeight")),
+            GAME_LOC_X = Integer.parseInt(PropertyMgr.get("gameLocationX")),
+            GAME_LOC_Y = Integer.parseInt(PropertyMgr.get("gameLocationY"));
     Image offScreenImage = null;
     private Player myTank;
     private List<Tank> enemyTanks;
@@ -17,7 +20,7 @@ public class TankFrame extends Frame {
 
     private TankFrame() {
         this.setTitle("Tank War");
-        this.setLocation(400, 100);
+        this.setLocation(GAME_LOC_X, GAME_LOC_Y);
         this.setSize(GAME_WIDTH, GAME_HEIGHT);
 
         this.addKeyListener(new TankKeyListener());
@@ -31,7 +34,9 @@ public class TankFrame extends Frame {
         enemyTanks = new ArrayList<>();
         explodes = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++)
+        int tankCount = Integer.parseInt(PropertyMgr.get("initTankCount"));
+
+        for (int i = 0; i < tankCount; i++)
             enemyTanks.add(new Tank(100 + 50*i,200, Direction.D, Group.BAD));
     }
 

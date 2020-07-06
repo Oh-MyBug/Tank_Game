@@ -8,14 +8,13 @@ public class Tank {
             TANK_HEIGHT = ResourceMgr.badTankL.getHeight();
     private int x, y;
     private Direction direction;
-    private boolean bL, bU, bR, bD;
     private boolean moving = true;
     private boolean live = true;
     private Group group;
 
     private int oldX, oldY;
 
-    public static final int SPEED = 5;
+    public static final int SPEED = Integer.parseInt(PropertyMgr.get("enemySpeed"));;
 
     public Tank(int x, int y, Direction direction, Group group) {
         this.x = x;
