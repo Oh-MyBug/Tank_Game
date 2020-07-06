@@ -2,6 +2,8 @@ package com.ohmybug.tank.strategy;
 
 import com.ohmybug.tank.Player;
 
-public interface FireStrategy {
+import java.io.Serializable;
+
+public interface FireStrategy extends Serializable {
     public void fire(Player player);
 }

@@ -3,7 +3,7 @@ package com.ohmybug.tank;
 import java.awt.*;
 
 public class Bullet extends AbstractGameObject{
-    private static final int SPEED = 10,
+    public static final int SPEED = 10,
             BULLET_WIDTH = ResourceMgr.bulletU.getWidth(),
             BULLET_HEIGHT = ResourceMgr.bulletU.getHeight();
     private int x,y;
@@ -87,10 +87,6 @@ public class Bullet extends AbstractGameObject{
 
     public Rectangle getRect(){
         return rectBullet;
-    }
-
-    public void collidesWithTank(Tank tank){
-
     }
 
     private void boundsCheck() {

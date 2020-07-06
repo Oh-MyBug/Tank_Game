@@ -3,6 +3,7 @@ package com.ohmybug.tank;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.*;
 
 public class TankFrame extends Frame {
     public static final int GAME_WIDTH = Integer.parseInt(PropertyMgr.get("gameWidth")),
@@ -44,11 +45,55 @@ public class TankFrame extends Frame {
     private class TankKeyListener extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
+            int key = e.getKeyCode();
+            if (key == KeyEvent.VK_S)
+                save();
+            else if(key == KeyEvent.VK_L)
+                load();
             gameModel.getMyTank().keyPressed(e);
         }
         @Override
         public void keyReleased(KeyEvent e) {
             gameModel.getMyTank().keyReleased(e);
+        }
+    }
+
+    private void save() {
+        ObjectOutputStream objectOutputStream = null;
+        try{
+            File file = new File("gameModel.dat");
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(gameModel);
+            objectOutputStream.flush();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            try {
+                if (objectOutputStream != null)
+                    objectOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void load() {
+        ObjectInputStream objectInputStream = null;
+        try{
+            File file = new File("gameModel.dat");
+            FileInputStream fileInputStream = new FileInputStream(file);
+            objectInputStream = new ObjectInputStream(fileInputStream);
+            this.gameModel  = (GameModel) objectInputStream.readObject();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            try {
+                if (objectInputStream != null)
+                    objectInputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

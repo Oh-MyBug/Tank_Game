@@ -3,10 +3,11 @@ package com.ohmybug.tank;
 import com.ohmybug.tank.chainofresponsibility.ColliderChain;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameModel {
+public class GameModel implements Serializable {
     private List<AbstractGameObject> objects;
     private Player myTank;
     private ColliderChain chain = new ColliderChain();
@@ -38,11 +39,15 @@ public class GameModel {
         g.setColor(c);
 
         myTank.paint(g);    // 具体画什么 交给坦克去做
+
         for (int i = 0; i < objects.size(); i++) {
             if (!objects.get(i).isLive()){
                 objects.remove(i);
                 break;
             }
+        }
+        for (int i = 0; i < objects.size(); i++) {
+
             AbstractGameObject go1 = objects.get(i);
             for (int j = 0; j < objects.size(); j++) {
                 AbstractGameObject go2 = objects.get(j);

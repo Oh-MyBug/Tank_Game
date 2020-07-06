@@ -3,10 +3,11 @@ package com.ohmybug.tank.chainofresponsibility;
 import com.ohmybug.tank.AbstractGameObject;
 import com.ohmybug.tank.PropertyMgr;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ColliderChain {
+public class ColliderChain implements Serializable {
     private List<Collider> colliders;
 
     public ColliderChain() {

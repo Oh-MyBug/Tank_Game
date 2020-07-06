@@ -4,8 +4,9 @@ import com.ohmybug.tank.strategy.FireStrategy;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.Serializable;
 
-public class Player extends AbstractGameObject {
+public class Player extends AbstractGameObject implements Serializable {
     public static final int SPEED = Integer.parseInt(PropertyMgr.get("playerSpeed"));
     FireStrategy strategy = null;
     private int x, y;
