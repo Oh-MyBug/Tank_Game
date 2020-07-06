@@ -1,3 +1,7 @@
 initTankCount=5
-gameWidth=600
-gameHeight=800
+gameWidth=800
+gameHeight=600
+playerSpeed=5
+enemySpeed=5
+gameLocationX=400
+gameLocationY=100

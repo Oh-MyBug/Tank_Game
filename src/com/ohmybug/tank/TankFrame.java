@@ -7,19 +7,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TankFrame extends Frame {
-    public static final TankFrame INSTANCE = new TankFrame();
     public static final int GAME_WIDTH = Integer.parseInt(PropertyMgr.get("gameWidth")),
-            GAME_HEIGHT = Integer.parseInt(PropertyMgr.get("gameHeight")),
-            GAME_LOC_X = Integer.parseInt(PropertyMgr.get("gameLocationX")),
-            GAME_LOC_Y = Integer.parseInt(PropertyMgr.get("gameLocationY"));
+                GAME_HEIGHT = Integer.parseInt(PropertyMgr.get("gameHeight")),
+                GAME_LOC_X = Integer.parseInt(PropertyMgr.get("gameLocationX")),
+                GAME_LOC_Y = Integer.parseInt(PropertyMgr.get("gameLocationY"));
     Image offScreenImage = null;
     private Player myTank;
     private List<Tank> enemyTanks;
     private List<Bullet> bullets;
     private List<Explode> explodes;
 
+    public static final TankFrame INSTANCE = new TankFrame();
+
     private TankFrame() {
         this.setTitle("Tank War");
+        System.out.println(GAME_WIDTH);
         this.setLocation(GAME_LOC_X, GAME_LOC_Y);
         this.setSize(GAME_WIDTH, GAME_HEIGHT);
 
