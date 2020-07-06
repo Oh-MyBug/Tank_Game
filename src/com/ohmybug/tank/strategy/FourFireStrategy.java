@@ -8,6 +8,6 @@ public class FourFireStrategy implements FireStrategy {
         int bX = player.getX() + ResourceMgr.goodTankU.getWidth()/2 - ResourceMgr.bulletU.getWidth()/2;
         int bY = player.getY() + ResourceMgr.goodTankU.getHeight()/2 - ResourceMgr.bulletU.getHeight()/2;
         for (Direction direction: Direction.values())
-            TankFrame.INSTANCE.add(new Bullet(bX,bY,direction,player.getGroup()));
+            TankFrame.INSTANCE.getGM().add(new Bullet(bX,bY,direction,player.getGroup()));
     }
 }

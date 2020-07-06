@@ -81,7 +81,7 @@ public class Tank extends AbstractGameObject {
     private void fire() {
         int bX = x + TANK_WIDTH/2 - ResourceMgr.bulletU.getWidth()/2;
         int bY = y + TANK_HEIGHT/2 - ResourceMgr.bulletU.getHeight()/2;
-        TankFrame.INSTANCE.add(new Bullet(bX,bY,direction,group));
+        TankFrame.INSTANCE.getGM().add(new Bullet(bX,bY,direction,group));
     }
 
     private void move(){
@@ -135,7 +135,7 @@ public class Tank extends AbstractGameObject {
 
     public void die() {
         this.setLive(false);
-        TankFrame.INSTANCE.add(new Explode(x,y));
+        TankFrame.INSTANCE.getGM().add(new Explode(x,y));
     }
 
 }

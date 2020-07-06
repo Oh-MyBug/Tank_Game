@@ -9,4 +9,4 @@ gameLocationY=100
 #tank fire strategy
 tankFireStrategy=FourFireStrategy
 
-colliders=BulletTankCollider,BulletWallCollider,TankWallCollider
+colliders=BulletTankCollider,BulletWallCollider,TankWallCollider,TankTankCollider
