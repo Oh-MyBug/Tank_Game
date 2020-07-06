@@ -3,7 +3,7 @@ package com.ohmybug.tank;
 import java.awt.*;
 import java.util.Random;
 
-public class Tank {
+public class Tank extends AbstractGameObject {
     private static final int TANK_WIDTH = ResourceMgr.badTankL.getWidth(),
             TANK_HEIGHT = ResourceMgr.badTankL.getHeight();
     private int x, y;

@@ -2,7 +2,7 @@ package com.ohmybug.tank;
 
 import java.awt.*;
 
-public class Bullet {
+public class Bullet extends AbstractGameObject{
     private static final int SPEED = 10;
     private int x,y;
     private Direction direction;

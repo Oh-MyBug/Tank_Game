@@ -5,7 +5,7 @@ import com.ohmybug.tank.strategy.FireStrategy;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class Player {
+public class Player extends AbstractGameObject {
     public static final int SPEED = Integer.parseInt(PropertyMgr.get("playerSpeed"));
     FireStrategy strategy = null;
     private int x, y;
